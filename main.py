@@ -1,5 +1,6 @@
 import logging
 from pyrogram import Client, filters
+import urllib.parse
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
@@ -23,7 +24,7 @@ async def handle_video(client, message):
     file_path = await message.download()
     
     # Replace this with your conversion logic
-    https_link = f"https://sin1.contabostorage.com/c9f9c005075244e3a2f88a4b113161c1:movieslist/{file_path.split('/')[-1]}"
+    https_link = f"https://sin1.contabostorage.com/c9f9c005075244e3a2f88a4b113161c1:movieslist/{urllib.parse.quote(file_name)}"
     
     # Respond with the converted HTTPS link
     await message.reply_text(f"Here's the HTTPS link for your video: {https_link}")
