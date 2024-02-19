@@ -24,7 +24,7 @@ async def handle_video(client, message):
     file_path = await message.download()
     
     # Replace this with your conversion logic
-    https_link = "https://stream.moviesmaster.org/converted_video.mp4"
+    https_link = "https://sin1.contabostorage.com/converted_video.mp4"
     
     # Respond with the converted HTTPS link
     await message.reply_text(f"Here's the HTTPS link for your video: {https_link}")
