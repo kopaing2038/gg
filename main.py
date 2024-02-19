@@ -14,44 +14,36 @@ BOT_TOKEN = "6752618609:AAFJufwcSl-i3CqOXjO4SXGi5NdHYP9BuVo"
 # Create the Pyrogram client
 app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
-# S3 configuration
-s3_config = {
-    'endpoint_url': 'https://sin1.contabostorage.com',
-    'region_name': 'sin1',  # Change if necessary
-}
+# AWS S3 Configuration
+ACCESS_KEY_ID = '31348d1b8b734ada5dc9fc302782d68c'
+SECRET_ACCESS_KEY = 'cdab26813ba4eefc74ce4da0b93e4243'
+ENDPOINT_URL = 'https://sin1.contabostorage.com'
 
-s3_access_key_id = '31348d1b8b734ada5dc9fc302782d68c'  # Replace with your access key ID
-s3_secret_access_key = 'cdab26813ba4eefc74ce4da0b93e4243'  # Replace with your secret access key
-
+# Create an S3 client
 s3 = boto3.client('s3', 
-                  aws_access_key_id=s3_access_key_id,
-                  aws_secret_access_key=s3_secret_access_key,
-                  **s3_config)
-
-bucket_name = 'movieslist'  # Change to your bucket name
-
+                  endpoint_url=ENDPOINT_URL,
+                  aws_access_key_id=ACCESS_KEY_ID,
+                  aws_secret_access_key=SECRET_ACCESS_KEY)
 
 # Define the function to handle the /start command
 @app.on_message(filters.command("start"))
 async def start(client, message):
     await message.reply_text('Hi! Send me a video file.')
 
-
 @app.on_message(filters.video)
 async def handle_video(client, message):
     # Download the video file
     file_path = await message.download()
+    file_name = file_path.split("/")[-1]
     
-    # Upload the video file to S3-compatible storage
-    file_name = file_path.split("/")[-1]  # Extracting file name from path
-    s3.upload_file(file_path, bucket_name, file_name)
+    # Upload the video file to contabostorage
+    s3.upload_file(file_path, 'movieslist', file_name)
     
     # Generate HTTPS link for the uploaded file
-    https_link = f"https://{bucket_name}.{s3_config['endpoint_url']}/{urllib.parse.quote(file_name)}"
+    https_link = f"https://sin1.contabostorage.com/movieslist/{urllib.parse.quote(file_name)}"
     
     # Respond with the converted HTTPS link
     await message.reply_text(f"Here's the HTTPS link for your video: {https_link}")
-
 
 # Start the Bot
 if __name__ == '__main__':
