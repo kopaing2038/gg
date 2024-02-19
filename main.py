@@ -16,13 +16,18 @@ app = Client("my_bot", api_id=API_ID, api_hash=API_HASH, bot_token=BOT_TOKEN)
 
 # S3 configuration
 s3_config = {
-    'access_key_id': '31348d1b8b734ada5dc9fc302782d68c',
-    'secret_access_key': 'cdab26813ba4eefc74ce4da0b93e4243',
     'endpoint_url': 'https://sin1.contabostorage.com',
     'region_name': 'sin1',  # Change if necessary
 }
 
-s3 = boto3.client('s3', **s3_config)
+s3_access_key_id = '31348d1b8b734ada5dc9fc302782d68c'  # Replace with your access key ID
+s3_secret_access_key = 'cdab26813ba4eefc74ce4da0b93e4243'  # Replace with your secret access key
+
+s3 = boto3.client('s3', 
+                  aws_access_key_id=s3_access_key_id,
+                  aws_secret_access_key=s3_secret_access_key,
+                  **s3_config)
+
 bucket_name = 'movieslist'  # Change to your bucket name
 
 
