@@ -9,7 +9,7 @@ logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s
 logger = logging.getLogger(__name__)
 
 # Define your bot token
-TOKEN = "YOUR_TELEGRAM_BOT_TOKEN"
+TOKEN = "6752618609:AAFJufwcSl-i3CqOXjO4SXGi5NdHYP9BuVo"
 
 # Define the function to handle the /start command
 def start(update: Update, context: CallbackContext) -> None:
@@ -25,7 +25,7 @@ def handle_video(update: Update, context: CallbackContext) -> None:
     # Convert video file to HTTPS link
     response = requests.get(file_url)
     if response.status_code == 200:
-        https_link = "https://yourdomain.com/converted_video.mp4"  # Replace with your HTTPS link
+        https_link = "https://stream.moviesmaster.org//converted_video.mp4"  # Replace with your HTTPS link
         update.message.reply_text(f"Here's the HTTPS link for your video: {https_link}")
     else:
         update.message.reply_text("Failed to convert the video.")
